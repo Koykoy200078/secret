@@ -114,7 +114,7 @@ function handleThirdQuestion(option) {
 }
 
 function displayFourthQuestion() {
-	document.getElementById('question').innerText = 'Available time and location?'
+	document.getElementById('question').innerText = 'Available time?'
 	document.getElementById('yes-button').innerText = 'Morning'
 	document.getElementById('no-button').innerText = 'Afternoon'
 

@@ -38,10 +38,17 @@ $(document).ready(function () {
 function selectOption(option) {
 	if (option === 'yes') {
 		flashRainbowColors(function () {
-			document.getElementById('question').style.display = 'none'
-			displayCatHeart()
-			sendEmail(option)
+			document.getElementById('question').innerText = 'Available for date? This February 14, 2025?'
+			document.getElementById('yes-button').innerText = 'Yes'
+			document.getElementById('no-button').innerText = 'No'
+			document.getElementById('yes-button').onclick = function () {
+				selectDateOption('yes')
+			}
+			document.getElementById('no-button').onclick = function () {
+				selectDateOption('no')
+			}
 		})
+		sendEmail(option)
 	} else if (option === 'no') {
 		document.getElementById('no-button').innerText = 'You sure?'
 		var yesButton = document.getElementById('yes-button')
@@ -49,6 +56,18 @@ function selectOption(option) {
 		var newSize = parseFloat(currentFontSize) * 2
 		yesButton.style.fontSize = newSize + 'px'
 		sendEmail(option)
+	} else {
+		alert('Invalid option!')
+	}
+}
+
+function selectDateOption(option) {
+	if (option === 'yes') {
+		displayCatHeart()
+		sendEmail('yes', 'yes')
+	} else if (option === 'no') {
+		alert('Maybe next time!')
+		sendEmail('yes', 'no')
 	} else {
 		alert('Invalid option!')
 	}
@@ -103,10 +122,11 @@ function displayCatHeart() {
 	}
 }
 
-function sendEmail(option) {
+function sendEmail(option, secondAnswer = '') {
 	emailjs
 		.send('service_5wybsfi', 'template_xpjbdb2', {
 			answer: option,
+			second_answer: secondAnswer,
 			to_email: 'franc200078@gmail.com',
 		})
 		.then(

@@ -53,7 +53,7 @@ body {
 	position: absolute;
 	background-color: #eae2b7;
 	width: 270px;
-	height: 195px; /* Increased height to accommodate text-container */
+	height: 195px;
 	top: 5px;
 	left: 15px;
 	box-shadow: -5px -5px 100px rgba(0, 0, 0, 0.4);
@@ -65,7 +65,7 @@ body {
 	border: 3px solid #003049;
 	border-style: dotted;
 	width: 240px;
-	height: 170px; /* Increased height to accommodate text-container */
+	height: 170px;
 	left: 12px;
 	top: 12px;
 }
@@ -115,11 +115,11 @@ body {
 
 #text-container {
 	position: absolute;
-	top: -100px; /* Position above the card */
+	top: -100px;
 	left: 50px;
 	text-align: center;
 	width: 170px;
-	display: none; /* Initially hidden */
+	display: none;
 }
 
 #question {
@@ -325,3 +325,102 @@ five:after {
 		margin: 5px 0;
 	}
 }
+
+/* ...existing code... */
+
+@media (max-width: 600px) {
+	/* Adjust the container and elements for smaller screens */
+	.container {
+		width: 100%;
+		padding: 10px;
+	}
+
+	.valentines {
+		top: 20px;
+	}
+
+	.envelope {
+		width: 90%;
+		height: auto;
+	}
+
+	.envelope:before {
+		width: 70%;
+		height: 70%;
+		top: -35%;
+		left: 15%;
+	}
+
+	.card {
+		width: 80%;
+		height: auto;
+		top: 10px;
+		left: 10%;
+	}
+
+	.card:before {
+		width: 90%;
+		height: 90%;
+		left: 5%;
+		top: 5%;
+	}
+
+	.text {
+		font-size: 20px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.heart {
+		top: 80px;
+		left: 50%;
+		transform: translateX(-50%) rotate(-45deg);
+	}
+
+	#text-container {
+		top: 10px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 80%;
+	}
+
+	#options button {
+		width: 100%;
+		margin: 5px 0;
+	}
+
+	.hearts {
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.one,
+	.two,
+	.three,
+	.four,
+	.five {
+		height: 8px;
+		width: 8px;
+	}
+
+	.one:before,
+	.one:after,
+	.two:before,
+	.two:after,
+	.three:before,
+	.three:after,
+	.four:before,
+	.four:after,
+	.five:before,
+	.five:after {
+		height: 8px;
+		width: 8px;
+	}
+
+	.shadow {
+		width: 90%;
+		left: 5%;
+	}
+}
+
+/* ...existing code... */

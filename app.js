@@ -35,42 +35,137 @@ $(document).ready(function () {
 	$('#text-container').hide()
 })
 
-function selectOption(option) {
+let firstAnswer = ''
+let secondAnswer = ''
+let thirdAnswer = ''
+let fourthAnswer = ''
+
+function handleFirstQuestion(option) {
 	if (option === 'yes') {
+		firstAnswer = 'yes'
 		flashRainbowColors(function () {
-			document.getElementById('question').innerText = 'Available for date? This February 14, 2025?'
-			document.getElementById('yes-button').innerText = 'Yes'
-			document.getElementById('no-button').innerText = 'No'
-			document.getElementById('yes-button').onclick = function () {
-				selectDateOption('yes')
-			}
-			document.getElementById('no-button').onclick = function () {
-				selectDateOption('no')
-			}
+			displaySecondQuestion()
 		})
-		sendEmail(option)
 	} else if (option === 'no') {
+		firstAnswer = 'no'
 		document.getElementById('no-button').innerText = 'You sure?'
 		var yesButton = document.getElementById('yes-button')
 		var currentFontSize = window.getComputedStyle(yesButton).getPropertyValue('font-size')
 		var newSize = parseFloat(currentFontSize) * 2
 		yesButton.style.fontSize = newSize + 'px'
-		sendEmail(option)
+		sendEmail(firstAnswer)
 	} else {
 		alert('Invalid option!')
 	}
 }
 
-function selectDateOption(option) {
+function displaySecondQuestion() {
+	document.getElementById('question').innerText = 'Available for date? This February 14, 2025?'
+	document.getElementById('yes-button').innerText = 'Yes'
+	document.getElementById('no-button').innerText = 'No'
+	document.getElementById('yes-button').onclick = function () {
+		handleSecondQuestion('yes')
+	}
+	document.getElementById('no-button').onclick = function () {
+		handleSecondQuestion('no')
+	}
+}
+
+function handleSecondQuestion(option) {
 	if (option === 'yes') {
-		displayCatHeart()
-		sendEmail('yes', 'yes')
+		secondAnswer = 'yes'
+		displayThirdQuestion()
 	} else if (option === 'no') {
+		secondAnswer = 'no'
 		alert('Maybe next time!')
-		sendEmail('yes', 'no')
+		sendEmail(firstAnswer, secondAnswer)
 	} else {
 		alert('Invalid option!')
 	}
+}
+
+function displayThirdQuestion() {
+	document.getElementById('question').innerText = 'Where we go?'
+	document.getElementById('yes-button').innerText = 'Foodtrip'
+	document.getElementById('no-button').innerText = 'Sine'
+
+	// Create a new button for the third option
+	var thirdButton = document.createElement('button')
+	thirdButton.id = 'third-button'
+	thirdButton.innerText = 'Park'
+	thirdButton.onclick = function () {
+		handleThirdQuestion('Park')
+	}
+
+	// Append the third button to the options container
+	document.getElementById('options').appendChild(thirdButton)
+
+	document.getElementById('yes-button').onclick = function () {
+		handleThirdQuestion('Foodtrip')
+	}
+	document.getElementById('no-button').onclick = function () {
+		handleThirdQuestion('Sine')
+	}
+}
+
+function handleThirdQuestion(option) {
+	thirdAnswer = option
+	displayFourthQuestion()
+}
+
+function displayFourthQuestion() {
+	document.getElementById('question').innerText = 'Available time and location?'
+	document.getElementById('yes-button').innerText = 'Morning'
+	document.getElementById('no-button').innerText = 'Afternoon'
+
+	// Remove the third button if it exists
+	var thirdButton = document.getElementById('third-button')
+	if (thirdButton) {
+		thirdButton.remove()
+	}
+
+	// Create a new button for the third option
+	var eveningButton = document.createElement('button')
+	eveningButton.id = 'evening-button'
+	eveningButton.innerText = 'Evening'
+	eveningButton.onclick = function () {
+		handleFourthQuestion('Evening')
+	}
+
+	// Append the evening button to the options container
+	document.getElementById('options').appendChild(eveningButton)
+
+	document.getElementById('yes-button').onclick = function () {
+		handleFourthQuestion('Morning')
+	}
+	document.getElementById('no-button').onclick = function () {
+		handleFourthQuestion('Afternoon')
+	}
+}
+
+function handleFourthQuestion(option) {
+	fourthAnswer = option
+	displayCatHeart()
+	sendEmail(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer)
+}
+
+function sendEmail(firstAnswer, secondAnswer = '', thirdAnswer = '', fourthAnswer = '') {
+	const templateParams = {
+		answer: firstAnswer,
+		second_answer: secondAnswer,
+		third_answer: thirdAnswer,
+		fourth_answer: fourthAnswer,
+		to_email: 'franc200078@gmail.com',
+	}
+
+	emailjs.send('service_5wybsfi', 'template_xpjbdb2', templateParams).then(
+		function (response) {
+			console.log('SUCCESS!', response.status, response.text)
+		},
+		function (error) {
+			console.log('FAILED...', error)
+		},
+	)
 }
 
 function flashRainbowColors(callback) {
@@ -120,23 +215,6 @@ function displayCatHeart() {
 		text.className = 'yes-text'
 		imageContainer.appendChild(text)
 	}
-}
-
-function sendEmail(option, secondAnswer = '') {
-	emailjs
-		.send('service_5wybsfi', 'template_xpjbdb2', {
-			answer: option,
-			second_answer: secondAnswer,
-			to_email: 'franc200078@gmail.com',
-		})
-		.then(
-			function (response) {
-				console.log('SUCCESS!', response.status, response.text)
-			},
-			function (error) {
-				console.log('FAILED...', error)
-			},
-		)
 }
 
 displayCat()
